@@ -8,7 +8,7 @@ import lombok.Value;
 @RequiredArgsConstructor
 @Builder
 public class ErrorDetails {
-    int code;
+    String code;
     String description;
     String params;
 }

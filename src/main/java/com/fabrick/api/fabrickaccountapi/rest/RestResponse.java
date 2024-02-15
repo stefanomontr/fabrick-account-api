@@ -10,7 +10,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Builder
 public class RestResponse<T> {
-    ResponseStatus responseStatus;
+    ResponseStatus status;
     List<ErrorDetails> errors;
     T payload;
 }
