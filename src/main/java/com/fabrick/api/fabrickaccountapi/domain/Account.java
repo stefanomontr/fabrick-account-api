@@ -4,10 +4,12 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
+import java.io.Serializable;
+
 @Value
 @RequiredArgsConstructor
 @Builder
-public class Account {
+public class Account implements Serializable {
     String accountCode;
     String bicCode;
 }

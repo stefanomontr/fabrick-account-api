@@ -1,20 +1,23 @@
 package com.fabrick.api.fabrickaccountapi.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
+import java.io.Serializable;
 import java.util.Map;
 
 @Value
 @RequiredArgsConstructor
 @Builder
-public class TaxRelief {
-    TaxReliefId taxReliefId;
-    boolean isCondoUpgrade;
+@JsonInclude(JsonInclude.Include.ALWAYS)
+public class TaxRelief implements Serializable {
+    String taxReliefId;
+    Boolean isCondoUpgrade;
     String creditorFiscalCode;
-    BeneficiaryType beneficiaryType;
+    String beneficiaryType;
     NaturalPersonBeneficiary naturalPersonBeneficiary;
     LegalPersonBeneficiary legalPersonBeneficiary;
 }

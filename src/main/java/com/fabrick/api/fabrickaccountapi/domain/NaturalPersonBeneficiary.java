@@ -4,10 +4,12 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
+import java.io.Serializable;
+
 @Value
 @RequiredArgsConstructor
 @Builder
-public class NaturalPersonBeneficiary {
+public class NaturalPersonBeneficiary implements Serializable {
     String fiscalCode1;
     String fiscalCode2;
     String fiscalCode3;

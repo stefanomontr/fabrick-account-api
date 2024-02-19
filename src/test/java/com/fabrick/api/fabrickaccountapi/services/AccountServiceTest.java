@@ -13,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.Date;
-import java.util.HashMap;
 
 @SpringBootTest
 @ContextConfiguration(classes = TestConfig.class)
@@ -66,23 +65,19 @@ class AccountServiceTest {
                 .executionDate(LocalDate.of(2019, 4, 1))
                 .uri("REMITTANCE_INFORMATION")
                 .description("Payment invoice 75/2017")
-                .amount("800")
+                .amount(800)
                 .currency("EUR")
                 .isUrgent(false)
                 .isInstant(false)
                 .feeType(FeeType.SHA)
                 .feeAccountId("45685475")
                 .taxRelief(TaxRelief.builder()
-                        .taxReliefId(TaxReliefId.L449)
+                        .taxReliefId("L449")
                         .isCondoUpgrade(false)
                         .creditorFiscalCode("56258745832")
-                        .beneficiaryType(BeneficiaryType.NATURAL_PERSON)
+                        .beneficiaryType("NATURAL_PERSON")
                         .naturalPersonBeneficiary(NaturalPersonBeneficiary.builder()
                                 .fiscalCode1("MRLFNC81L04A859L")
-                                .fiscalCode2(null)
-                                .fiscalCode3(null)
-                                .fiscalCode4(null)
-                                .fiscalCode5(null)
                                 .build())
                         .legalPersonBeneficiary(LegalPersonBeneficiary.builder()
                                 .fiscalCode(null)
@@ -94,6 +89,9 @@ class AccountServiceTest {
         Assertions.assertThat(response.getErrors())
                 .hasSize(1)
                 .element(0)
-                .returns("API000", ErrorDetails::getCode);
+                .returns("API000", ErrorDetails::getCode)
+                .returns("it.sella.pagamenti.servizibonifico.exception.ServiziInvioBonificoSubsystemException: " +
+                                "it.sella.pagamenti.sottosistemi.SottosistemiException: Errore tecnico CONTO 45685475:Conto 45685475 non esiste",
+                        ErrorDetails::getDescription);
     }
 }
