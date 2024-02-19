@@ -1,6 +1,7 @@
 package com.fabrick.api.fabrickaccountapi.services;
 
 import com.fabrick.api.fabrickaccountapi.config.TestConfig;
+import com.fabrick.api.fabrickaccountapi.domain.*;
 import com.fabrick.api.fabrickaccountapi.rest.ErrorDetails;
 import com.fabrick.api.fabrickaccountapi.rest.ResponseStatus;
 import org.assertj.core.api.Assertions;
@@ -12,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.HashMap;
 
 @SpringBootTest
 @ContextConfiguration(classes = TestConfig.class)
@@ -19,6 +21,8 @@ class AccountServiceTest {
 
     @Autowired
     AccountService accountService;
+
+    private static final String TEST_ACCOUNT = "14537780";
 
     @Test
     void testMissingAccount() {
@@ -35,13 +39,61 @@ class AccountServiceTest {
 
     @Test
     void testGetBalance() {
-        var account = "14537780";
         var todayAtStartOfDay = Date.from(LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC));
-        var response = accountService.getAccountBalance(account);
+        var response = accountService.getAccountBalance(TEST_ACCOUNT);
         Assertions.assertThat(response.getPayload()).isNotNull()
                 .returns(0, payload -> todayAtStartOfDay.compareTo(payload.getDate()));
         Assertions.assertThat(response.getPayload().getBalance()).isNotNull();
         Assertions.assertThat(response.getPayload().getAvailableBalance()).isNotNull();
         Assertions.assertThat(response.getPayload().getCurrency()).isNotNull();
+    }
+
+    @Test
+    void testMoneyTransfer() {
+        var transferInstructions = TransferInstructions.builder()
+                .creditor(Creditor.builder()
+                        .name("John Doe")
+                        .account(Account.builder()
+                                .accountCode("IT23A0336844430152923804660")
+                                .bicCode("SELBIT2BXXX")
+                                .build())
+                        .address(Address.builder()
+                                .address(null)
+                                .city(null)
+                                .countryCode(null)
+                                .build())
+                        .build())
+                .executionDate(LocalDate.of(2019, 4, 1))
+                .uri("REMITTANCE_INFORMATION")
+                .description("Payment invoice 75/2017")
+                .amount("800")
+                .currency("EUR")
+                .isUrgent(false)
+                .isInstant(false)
+                .feeType(FeeType.SHA)
+                .feeAccountId("45685475")
+                .taxRelief(TaxRelief.builder()
+                        .taxReliefId(TaxReliefId.L449)
+                        .isCondoUpgrade(false)
+                        .creditorFiscalCode("56258745832")
+                        .beneficiaryType(BeneficiaryType.NATURAL_PERSON)
+                        .naturalPersonBeneficiary(NaturalPersonBeneficiary.builder()
+                                .fiscalCode1("MRLFNC81L04A859L")
+                                .fiscalCode2(null)
+                                .fiscalCode3(null)
+                                .fiscalCode4(null)
+                                .fiscalCode5(null)
+                                .build())
+                        .legalPersonBeneficiary(LegalPersonBeneficiary.builder()
+                                .fiscalCode(null)
+                                .legalRepresentativeFiscalCode(null)
+                                .build())
+                        .build())
+                .build();
+        var response = accountService.executeMoneyTransfer(TEST_ACCOUNT, transferInstructions);
+        Assertions.assertThat(response.getErrors())
+                .hasSize(1)
+                .element(0)
+                .returns("API000", ErrorDetails::getCode);
     }
 }
