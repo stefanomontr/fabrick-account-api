@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;
-import java.util.Map;
 
 @Value
 @RequiredArgsConstructor

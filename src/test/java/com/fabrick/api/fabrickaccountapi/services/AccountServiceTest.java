@@ -91,7 +91,17 @@ class AccountServiceTest {
                 .element(0)
                 .returns("API000", ErrorDetails::getCode)
                 .returns("it.sella.pagamenti.servizibonifico.exception.ServiziInvioBonificoSubsystemException: " +
-                                "it.sella.pagamenti.sottosistemi.SottosistemiException: Errore tecnico CONTO 45685475:Conto 45685475 non esiste",
+                                "it.sella.pagamenti.sottosistemi.SottosistemiException: " +
+                                "Errore tecnico CONTO 45685475:Conto 45685475 non esiste",
                         ErrorDetails::getDescription);
+    }
+
+    @Test
+    void testGetTransactions() {
+        var from = LocalDate.of(2019, 1, 1);
+        var to = LocalDate.of(2019, 12, 1);
+        var response = accountService.getTransactions(TEST_ACCOUNT, from, to);
+        Assertions.assertThat(response.getPayload()).isNotNull();
+        Assertions.assertThat(response.getPayload().getList()).hasSize(14);
     }
 }

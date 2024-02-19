@@ -1,7 +1,6 @@
 package com.fabrick.api.fabrickaccountapi.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -14,13 +13,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApiConfig {
 
-//    TODO
-//    @Value("${fabrick.api.key}")
-//    private final String fabrickApiKey;
-//
-//    @Value("${fabrick.auth.schema}")
-//    private final String fabrickAuthSchema;
-
     @Bean
     public HttpHeaders fabrickHttpHeaders() {
         var httpHeaders = new HttpHeaders();
@@ -28,6 +20,7 @@ public class ApiConfig {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.set("Auth-Schema", "S2S");
         httpHeaders.set("Api-Key", "FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP");
+        httpHeaders.set("X-Time-Zone", "Europe/Rome");
         return httpHeaders;
     }
 
