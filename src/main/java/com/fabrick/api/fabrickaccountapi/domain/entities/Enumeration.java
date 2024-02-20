@@ -1,10 +1,9 @@
 package com.fabrick.api.fabrickaccountapi.domain.entities;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "ENUMERATION")
@@ -14,14 +13,20 @@ import lombok.Value;
 @Builder
 public class Enumeration {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
-    private Long id;
+    @EmbeddedId
+    private PrimaryKey primaryKey;
 
-    @Column(name = "ENUMERATION")
-    private String enumeration;
+    @OneToMany(mappedBy = "enumeration")
+    private List<Transaction> transactions;
 
-    @Column(name = "ENUMERATION_VALUE")
-    private String enumerationValue;
+    @Embeddable
+    @Data
+    public static class PrimaryKey {
+
+        @Column(name = "ENUMERATION")
+        private String enumeration;
+
+        @Column(name = "ENUMERATION_VALUE")
+        private String enumerationValue;
+    }
 }

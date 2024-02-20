@@ -2,7 +2,6 @@ package com.fabrick.api.fabrickaccountapi.services;
 
 import com.fabrick.api.fabrickaccountapi.config.TestConfig;
 import com.fabrick.api.fabrickaccountapi.domain.*;
-import com.fabrick.api.fabrickaccountapi.domain.entities.Transaction;
 import com.fabrick.api.fabrickaccountapi.domain.repositories.TransactionRepository;
 import com.fabrick.api.fabrickaccountapi.rest.ErrorDetails;
 import com.fabrick.api.fabrickaccountapi.rest.ResponseStatus;

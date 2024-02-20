@@ -50,7 +50,8 @@ class TransactionServiceTest {
                 .returns(transaction.getValueDate(), Transaction::getValueDate)
                 .returns(transaction.getCurrency(), Transaction::getCurrency)
                 .returns(transaction.getDescription(), Transaction::getDescription)
-                .returns(enumeration.getEnumeration(), tx -> tx.getEnumeration().getEnumeration())
-                .returns(enumeration.getEnumerationValue(), tx -> tx.getEnumeration().getEnumerationValue());
+                .returns(enumeration.getEnumeration(), tx -> tx.getEnumeration().getPrimaryKey().getEnumeration())
+                .returns(enumeration.getEnumerationValue(),
+                        tx -> tx.getEnumeration().getPrimaryKey().getEnumerationValue());
     }
 }

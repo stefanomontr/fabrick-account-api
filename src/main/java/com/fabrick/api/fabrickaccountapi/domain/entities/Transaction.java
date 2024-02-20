@@ -21,8 +21,9 @@ public class Transaction {
     @Column(name = "OPERATION_ID")
     String operationId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ENUMERATION")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="ENUMERATION", referencedColumnName="ENUMERATION")
+    @JoinColumn(name="ENUMERATION_VALUE", referencedColumnName="ENUMERATION_VALUE")
     Enumeration enumeration;
 
     @Column(name = "ACCOUNTING_DATE")

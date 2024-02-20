@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface EnumerationMapper {
 
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "primaryKey.enumeration", source = "enumeration")
+    @Mapping(target = "primaryKey.enumerationValue", source = "enumerationValue")
     Enumeration toEnumeration(EnumerationDTO enumerationDTO);
 }
