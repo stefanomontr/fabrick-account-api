@@ -14,7 +14,7 @@ public class TransactionDTO {
     String operationId;
     LocalDate accountingDate;
     LocalDate valueDate;
-    Enumeration enumeration;
+    EnumerationDTO enumeration;
     Number amount;
     String currency;
     String description;

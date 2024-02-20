@@ -3,6 +3,7 @@ package com.fabrick.api.fabrickaccountapi.services;
 import com.fabrick.api.fabrickaccountapi.domain.TransactionDTO;
 import com.fabrick.api.fabrickaccountapi.domain.entities.Transaction;
 import com.fabrick.api.fabrickaccountapi.domain.repositories.TransactionRepository;
+import com.fabrick.api.fabrickaccountapi.mappers.TransactionMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.Objects;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
+    private final TransactionMapper transactionMapper;
 
     private Transaction saveTransaction(Transaction transaction) {
         return transactionRepository.save(transaction);
@@ -23,15 +25,8 @@ public class TransactionService {
     @Transactional
     public void saveTransactions(List<TransactionDTO> transactionDTOs) {
         if (Objects.nonNull(transactionDTOs)) {
-            var transactions = transactionDTOs.stream().map(this::toTransaction).toList();
+            var transactions = transactionDTOs.stream().map(transactionMapper::toTransaction).toList();
             transactions.forEach(this::saveTransaction);
         }
-    }
-
-    private Transaction toTransaction(TransactionDTO transactionDTO) {
-        return Transaction.builder()
-                .transactionId(transactionDTO.getTransactionId())
-                .operationId(transactionDTO.getOperationId())
-                .build();
     }
 }

@@ -7,7 +7,7 @@ import lombok.Value;
 @Value
 @RequiredArgsConstructor
 @Builder
-public class Enumeration {
+public class EnumerationDTO {
     String enumeration;
-    String value;
+    String enumerationValue;
 }
