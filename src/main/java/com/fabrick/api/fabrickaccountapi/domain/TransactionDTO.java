@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Value
 @RequiredArgsConstructor
 @Builder
-public class Transaction {
+public class TransactionDTO {
     String transactionId;
     String operationId;
     LocalDate accountingDate;

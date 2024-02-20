@@ -9,6 +9,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(force = true)
 @Setter
-public class Transactions {
-    List<Transaction> list;
+public class TransactionDTOs {
+    List<TransactionDTO> list;
 }

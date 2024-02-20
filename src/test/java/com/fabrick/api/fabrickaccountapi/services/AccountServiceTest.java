@@ -2,24 +2,29 @@ package com.fabrick.api.fabrickaccountapi.services;
 
 import com.fabrick.api.fabrickaccountapi.config.TestConfig;
 import com.fabrick.api.fabrickaccountapi.domain.*;
+import com.fabrick.api.fabrickaccountapi.domain.entities.Transaction;
+import com.fabrick.api.fabrickaccountapi.domain.repositories.TransactionRepository;
 import com.fabrick.api.fabrickaccountapi.rest.ErrorDetails;
 import com.fabrick.api.fabrickaccountapi.rest.ResponseStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.Date;
 
-@SpringBootTest
+@DataJpaTest
 @ContextConfiguration(classes = TestConfig.class)
 class AccountServiceTest {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    TransactionRepository transactionRepository;
 
     private static final String TEST_ACCOUNT = "14537780";
 
@@ -98,10 +103,17 @@ class AccountServiceTest {
 
     @Test
     void testGetTransactions() {
+        Assertions.assertThat(transactionRepository.findAll()).isEmpty();
+
         var from = LocalDate.of(2019, 1, 1);
         var to = LocalDate.of(2019, 12, 1);
         var response = accountService.getTransactions(TEST_ACCOUNT, from, to);
+        // test response from Fabrick api
         Assertions.assertThat(response.getPayload()).isNotNull();
         Assertions.assertThat(response.getPayload().getList()).hasSize(14);
+
+        // test transactions saved in db
+        var savedTransactions = transactionRepository.findAll();
+        Assertions.assertThat(savedTransactions).hasSize(14);
     }
 }

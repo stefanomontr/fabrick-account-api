@@ -1,7 +1,7 @@
 package com.fabrick.api.fabrickaccountapi.controllers;
 
 import com.fabrick.api.fabrickaccountapi.domain.Balance;
-import com.fabrick.api.fabrickaccountapi.domain.Transactions;
+import com.fabrick.api.fabrickaccountapi.domain.TransactionDTOs;
 import com.fabrick.api.fabrickaccountapi.domain.TransferInstructions;
 import com.fabrick.api.fabrickaccountapi.domain.TransferOutcome;
 import com.fabrick.api.fabrickaccountapi.rest.RestResponse;
@@ -30,7 +30,7 @@ public class AccountController {
     }
 
     @GetMapping("{accountId}/transactions")
-    public RestResponse<Transactions> getTransactions(@PathVariable("accountId") String accountId,
+    public RestResponse<TransactionDTOs> getTransactions(@PathVariable("accountId") String accountId,
             @RequestParam LocalDate fromAccountingDate, @RequestParam LocalDate toAccountingDate) {
         return accountService.getTransactions(accountId, fromAccountingDate, toAccountingDate);
     }
